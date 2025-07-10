@@ -3,7 +3,6 @@ import { LoginPage } from '../pages/login-page'
 import { faker } from '@faker-js/faker/locale/ar'
 import { PASSWORD, USERNAME } from '../../config/env-data'
 
-
 let authPage: LoginPage
 
 test.beforeEach(async ({ page }) => {
@@ -40,13 +39,13 @@ test('login and create order', async ({}) => {
   await orderCreationPage.comment.fill(faker.lorem.word(1))
   await orderCreationPage.orderBtn.click()
   await expect.soft(orderCreationPage.popUp).toBeVisible()
-  await expect.soft(orderCreationPage.popUpText).toHaveText('×Order has been created!Tracking code: undefinedok')
-
+  await expect
+    .soft(orderCreationPage.popUpText)
+    .toHaveText('×Order has been created!Tracking code: undefinedok')
 })
 
 test('login and logout', async ({}) => {
   const orderCreationPage = await authPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logOutBtn.click()
   await expect.soft(authPage.signInButton).toBeVisible()
-
 })

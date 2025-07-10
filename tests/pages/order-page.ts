@@ -11,7 +11,6 @@ export class OrderPage {
   readonly popUp: Locator
   readonly popUpText: Locator
 
-
   constructor(page: Page) {
     this.page = page
     this.statusButton = page.getByTestId('openStatusPopup-button')
@@ -22,6 +21,5 @@ export class OrderPage {
     this.logOutBtn = page.getByTestId('logout-button')
     this.popUp = page.getByTestId('orderSuccessfullyCreated-popup')
     this.popUpText = page.getByTestId('orderSuccessfullyCreated-popup')
-
   }
 }
