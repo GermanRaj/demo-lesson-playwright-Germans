@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/login-page'
 import { faker } from '@faker-js/faker/locale/ar'
 import { PASSWORD, USERNAME } from '../../config/env-data'
+import { OrderNotFound } from '../pages/order-notFound'
 
 let authPage: LoginPage
 
@@ -25,7 +26,7 @@ test('error message displayed when incorrect credentials used', async ({}) => {
 
 test('login with correct credentials and verify order creation page', async ({}) => {
   const orderCreationPage = await authPage.signIn(USERNAME, PASSWORD)
-  await expect.soft(orderCreationPage.statusButton).toBeVisible()
+  await expect.soft(orderCreationPage.btnStatus).toBeVisible()
   await expect.soft(orderCreationPage.name).toBeVisible()
   await expect.soft(orderCreationPage.comment).toBeVisible()
   await expect.soft(orderCreationPage.phone).toBeVisible()
@@ -48,4 +49,13 @@ test('login and logout', async ({}) => {
   const orderCreationPage = await authPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logOutBtn.click()
   await expect.soft(authPage.signInButton).toBeVisible()
+})
+
+test('Order not found page elements are visible', async ({ page }) => {
+  const orderCreationPage = await authPage.signIn(USERNAME, PASSWORD)
+  await orderCreationPage.btnStatus.click()
+  await orderCreationPage.inputOrderNumber.fill('0000')
+  await orderCreationPage.trackingBtn.click()
+  const orderNotFoundPage = new OrderNotFound(page)
+  await expect.soft(orderNotFoundPage.notFoundTitle).toBeVisible()
 })
